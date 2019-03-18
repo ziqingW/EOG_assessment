@@ -1,0 +1,9 @@
+.informationWindow h5{
+  padding: 0;
+  margin: 0;
+}
+.mapWrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}

@@ -5,13 +5,17 @@ const initialState = {
   weatherId: null,
   name: "",
   temperature: "",
+  metric: null,
   weather_state_name: "",
   latitude: null,
   longitude: null,
-  data: {}
+  data: {},
+  timestamp : "",
+  accuracy : null,
+  fullDroneReading : [],
 };
 
-const toF = c => (c * 9) / 5 + 32;
+const toF = c => ((c * 9) / 5 + 32).toFixed(1);
 
 const startLoading = (state, action) => {
   return { ...state, loading: true };
@@ -38,14 +42,42 @@ const weatherDataRecevied = (state, action) => {
     temperatureinFahrenheit: toF(the_temp),
     weather_state_name,
     name,
-    data: action.data
+    data: action.data,
+  };
+};
+
+const defaultLoading = (state, action) => {
+  return {...state};
+};
+
+const defaultWeatherDataReceived = (state, action) => {
+  const latestUpdate = action.latestUpdate;
+  const fullDroneReading = action.fullDroneReading;
+  const {
+    timestamp,
+    accuracy,
+    latitude,
+    longitude,
+    metric
+  } = latestUpdate;
+
+  return {
+    ...state,
+    timestamp,
+    accuracy,
+    latitude,
+    longitude,
+    metric,
+    fullDroneReading
   };
 };
 
 const handlers = {
   [actions.FETCH_WEATHER]: startLoading,
   [actions.WEATHER_ID_RECEIVED]: weatherIDReceived,
-  [actions.WEATHER_DATA_RECEIVED]: weatherDataRecevied
+  [actions.WEATHER_DATA_RECEIVED]: weatherDataRecevied,
+  [actions.DEFAULT_FETCH_WEATHER]: defaultLoading,
+  [actions.DEFAULT_WEATHER_DATA_RECEIVED]: defaultWeatherDataReceived,
 };
 
 export default (state = initialState, action) => {

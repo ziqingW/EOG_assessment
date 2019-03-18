@@ -50,10 +50,23 @@ function* watchFetchWeather(action) {
   yield put({ type: actions.WEATHER_ID_RECEIVED, id: location });
 }
 
+function* watchDefaultSearch(action) {
+  const { error, data } = yield call(API.defaultSearch);
+  if (error) {
+    yield put({ type: actions.API_ERROR, code: error.code });
+    yield cancel();
+    return;
+  }
+  const latestUpdate = data.data[data.data.length-1];
+  const fullDroneReading = data.data
+  yield put({ type: actions.DEFAULT_WEATHER_DATA_RECEIVED, latestUpdate, fullDroneReading});
+}
+
 function* watchAppLoad() {
   yield all([
     takeEvery(actions.FETCH_WEATHER, watchFetchWeather),
-    takeEvery(actions.WEATHER_ID_RECEIVED, watchWeatherIdReceived)
+    takeEvery(actions.WEATHER_ID_RECEIVED, watchWeatherIdReceived),
+    takeEvery(actions.DEFAULT_FETCH_WEATHER, watchDefaultSearch),
   ]);
 }
 
