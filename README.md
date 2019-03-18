@@ -1,3 +1,2 @@
-## Create React App Visualization
-
+# EOG_assessment
 Assessment for EOG program
