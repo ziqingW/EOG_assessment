@@ -1,4 +1,4 @@
-# Houston Probe Visulization 
+# Houston Probe Visualization 
 A React assessment project for EOG to visualize the real-time probe reading around Houston in various ways: form, map and line plot. 
 
 ___
